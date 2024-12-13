@@ -2,14 +2,6 @@
 
 This is a simple product inventory management system using Spring Boot for the backend, MySQL for the database, React for the frontend, and Tailwind CSS for styling. The system allows users to create, read, update, and delete (CRUD) products through a user-friendly interface.
 
-## Table of Contents
-
-- [Getting Started](#getting-started)
-  - [Clone the repository](#clone-the-repository)
-  - [Backend Setup](#backend-setup)
-  - [Frontend Setup](#frontend-setup)
-- [Technologies Used](#technologies-used)
-
 ## Getting Started
 
 ### Clone the repository
@@ -32,7 +24,18 @@ cd Product-Inventory-Backend
 
 ### Frontend Setup
 
+1. Navigate to the frontend directory:
+
+```bash
+cd Product-Inventory-frontend
+```
+
+2. Follow the instructions in the frontend README:
+
+[Product-Inventory-frontend README](https://github.com/Sachinthafdo/hcode-intern-task-sachintha/blob/main/Product-Inventory-frontend/Readme.md)
+
 ## Technologies Used
 
 - **Backend**: Spring Boot
+- **Frontend**: React, Tailwind CSS
 - **Database**: MySQL
