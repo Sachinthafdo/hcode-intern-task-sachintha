@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import product.inventory.management.entity.ProductEntity;
 import product.inventory.management.service.ProductService;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -147,31 +149,56 @@ public class ProductController {
         }
     }
 
-    // filter products by category
+    // Filter by category with pagination
     @GetMapping("/products/filter/category")
-    public ResponseEntity<?> filterByCategory(@RequestParam String category) {
+    public ResponseEntity<?> filterByCategory(
+            @RequestParam String category,
+            @RequestParam int page,
+            @RequestParam int size) {
         try {
-            if (category == null || category.isEmpty()) {
-                return ResponseEntity.status(400).body("Please enter a valid category");
+
+            if (page < 0 || size <= 0) {
+                return ResponseEntity.status(400).body("Invalid pagination parameters");
             }
-            List<ProductEntity> products = productService.filterByCategory(category);
+            Page<ProductEntity> products = productService.filterByCategory(category, page, size);
             return ResponseEntity.status(200).body(products);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Please sorry! something went wrong.");
         }
     }
 
-    // filter products by price range
+    // Filter by price range with pagination
     @GetMapping("/products/filter/price")
-    public ResponseEntity<?> filterByPriceRange(@RequestParam Double minPrice,
-            @RequestParam Double maxPrice) {
+    public ResponseEntity<?> filterByPriceRange(
+            @RequestParam Double minPrice,
+            @RequestParam Double maxPrice,
+            @RequestParam int page,
+            @RequestParam int size) {
         try {
-            if (minPrice < 0 || maxPrice < 0 || maxPrice < minPrice) {
-                return ResponseEntity.status(400).body("Invalid price range");
-            }
 
-            List<ProductEntity> products = productService.filterByPriceRange(minPrice, maxPrice);
+            if (page < 0 || size <= 0) {
+                return ResponseEntity.status(400).body("Invalid pagination parameters");
+            }
+            Page<ProductEntity> products = productService.filterByPriceRange(minPrice, maxPrice, page, size);
             return ResponseEntity.status(200).body(products);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Please sorry! something went wrong.");
+        }
+    }
+
+    // Search products by name with pagination
+    @GetMapping("/products/filter/name")
+    public ResponseEntity<?> searchProducts(
+            @RequestParam String name,
+            @RequestParam int page,
+            @RequestParam int size) {
+        try {
+
+            if (page < 0 || size <= 0) {
+                return ResponseEntity.status(400).body("Invalid pagination parameters");
+            }
+            Page<ProductEntity> matchingProducts = productService.searchProducts(name, page, size);
+            return ResponseEntity.ok(matchingProducts);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Please sorry! something went wrong.");
         }
@@ -187,6 +214,17 @@ public class ProductController {
 
             Page<ProductEntity> products = productService.getPaginatedProducts(page, size);
             return ResponseEntity.status(200).body(products);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Please sorry! something went wrong.");
+        }
+    }
+
+    // get all categories
+    @GetMapping("/categories")
+    public ResponseEntity<?> getCategories() {
+        try {
+            List<String> categories = productService.listAllCategories();
+            return ResponseEntity.status(200).body(categories);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Please sorry! something went wrong.");
         }

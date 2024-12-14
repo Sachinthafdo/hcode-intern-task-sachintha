@@ -20,9 +20,14 @@ public interface ProductService {
 
     void deleteProduct(Long id);
 
-    List<ProductEntity> filterByCategory(String category);
-
-    List<ProductEntity> filterByPriceRange(Double minPrice, Double maxPrice);
-
     Page<ProductEntity> getPaginatedProducts(int page, int size);
+
+    List<String> listAllCategories();
+
+    Page<ProductEntity> filterByCategory(String category, int page, int size);
+
+    Page<ProductEntity> filterByPriceRange(Double minPrice, Double maxPrice, int page, int size);
+
+    Page<ProductEntity> searchProducts(String name, int page, int size);
+
 }

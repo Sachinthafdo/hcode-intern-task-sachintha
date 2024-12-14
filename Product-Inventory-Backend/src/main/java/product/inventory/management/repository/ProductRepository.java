@@ -14,14 +14,17 @@ import product.inventory.management.entity.ProductEntity;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    // Filter by category
-    List<ProductEntity> findByCategory(String category);
+    @Query("SELECT p.category FROM ProductEntity p GROUP BY p.category")
+    List<String> listAllCategories();
 
-    // Filter by minPrice and maxPrice
-    @Query("SELECT p FROM ProductEntity p WHERE p.price BETWEEN :minPrice AND :maxPrice")
-    List<ProductEntity> findByPriceRange(@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice);
-
-    // pagination
     Page<ProductEntity> findAll(Pageable pageable);
+
+    Page<ProductEntity> findByCategory(String category, Pageable pageable);
+
+    Page<ProductEntity> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    @Query("SELECT p FROM ProductEntity p WHERE p.price BETWEEN :minPrice AND :maxPrice")
+    Page<ProductEntity> findByPriceRange(@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice,
+            Pageable pageable);
 
 }

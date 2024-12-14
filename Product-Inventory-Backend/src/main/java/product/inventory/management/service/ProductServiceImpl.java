@@ -56,19 +56,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductEntity> filterByCategory(String category) {
-        return productRepository.findByCategory(category);
-    }
-
-    @Override
-    public List<ProductEntity> filterByPriceRange(Double minPrice, Double maxPrice) {
-        return productRepository.findByPriceRange(minPrice, maxPrice);
-    }
-
-    @Override
     public Page<ProductEntity> getPaginatedProducts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<String> listAllCategories() {
+        return productRepository.listAllCategories();
+    }
+
+    @Override
+    public Page<ProductEntity> filterByCategory(String category, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findByCategory(category, pageable);
+    }
+
+    @Override
+    public Page<ProductEntity> filterByPriceRange(Double minPrice, Double maxPrice, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findByPriceRange(minPrice, maxPrice, pageable);
+    }
+
+    @Override
+    public Page<ProductEntity> searchProducts(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 
 }
