@@ -65,21 +65,6 @@ The `ProductEntity` class includes the following attributes:
 - `quantity` (Long)
 - `category` (String)
 
-```java
-@Entity
-public class ProductEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-    private String description;
-    private Double price;
-    private Long quantity;
-    private String category;
-}
-```
-
 ### **Product DTO**
 
 The `ProductDto` class contains all the fields from the entity except `id`.
