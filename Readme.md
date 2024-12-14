@@ -10,6 +10,12 @@ This is a simple product inventory management system using Spring Boot for the b
 git clone https://github.com/Sachinthafdo/hcode-intern-task-sachintha
 ```
 
+### Navigate to the root directory
+
+```bash
+cd hcode-intern-task-sachintha
+```
+
 ### Backend Setup
 
 1. Navigate to the backend directory:
